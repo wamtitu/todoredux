@@ -6,9 +6,10 @@ import './addtodo.css';
 import { apiDomain } from "../utils/utils";
 import { useContext } from "react";
 import { Context } from "../context/userContext/Context";
+import { useSelector } from "react-redux";
 
 export default function AddTodo() {
-    const { user } = useContext(Context)
+    const user = useSelector((state)=>state.user.user)
     const schema = yup.object().shape({
         description: yup.string().required("description is required"),
     });

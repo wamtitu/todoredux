@@ -9,9 +9,13 @@ import Footer from './components/Footer';
 import './app.css'
 
 import { Context } from './context/userContext/Context';
+import { useSelector } from 'react-redux';
 
 function App() {
-  const { user } = useContext(Context);
+  // const { user } = useContext(Context);
+  // console.log(useSelector((state)=>state.user.user?.username))
+
+  const user = useSelector((state)=>state.user.user)
 
   return (
     <div className='app'>

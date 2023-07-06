@@ -4,6 +4,7 @@ import { apiDomain } from '../utils/utils'
 import axios from 'axios'
 import { Context } from '../context/userContext/Context'
 import './updateform.css'
+import { useSelector } from 'react-redux'
 
 
 const UpdateForm = ({ setShowEditForm, todo, getTodos }) => {
@@ -14,7 +15,7 @@ const UpdateForm = ({ setShowEditForm, todo, getTodos }) => {
     }, [])
 
 
-    const { user } = useContext(Context)
+    const user = useSelector((state)=>state.user.user)
     const handleSubmit = async (e) => {
         e.preventDefault()
         await axios.put(`${apiDomain}/todo/${todo.id}`, { description: description },

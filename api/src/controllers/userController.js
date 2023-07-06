@@ -13,8 +13,8 @@ export const loginRequired = (req, res, next) => {
 
 
 export const register = async (req, res) => {
-    const { userName, password, email } = req.body;
-    let hashPassword = bcrypt.hashSync(password, 10);
+    const { userName, userpassword, email } = req.body;
+    let password = bcrypt.hashSync(userpassword, 10);
     // try {
     //     let pool = await sql.connect(config.sql);
     //     await pool.request()
@@ -40,12 +40,13 @@ export const register = async (req, res) => {
         } else {
             await pool.request()
                 .input("username", sql.VarChar, userName)
-                .input("hashedpassword", sql.VarChar, hashPassword)
+                .input("password", sql.VarChar, password)
                 .input("email", sql.VarChar, email)
-                .query("insert into users(username,hashedpassword, email ) values (@username,@hashedpassword,@email)");
+                .query("insert into users(username,password, email ) values (@username,@password,@email)");
             res.status(201).json({ message: 'User created successfully' });
         }
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: 'An error occurred while creating the user' });
     } finally {
         sql.close();
@@ -63,7 +64,7 @@ export const login = async (req, res) => {
     if (!user) {
         res.status(401).json({ error: 'Authentication failed. User not found.' });
     } else if (user) {
-        if (!bcrypt.compareSync(password, user.hashedpassword)) {
+        if (!bcrypt.compareSync(password, user.password)) {
             res.status(401).json({ error: 'Authentication failed. Wrong password' });
         } else {
             let token = `JWT ${jwt.sign({ email: user.email, username: user.username, id: user.id }, `${process.env.JWT_SECRET}`)}`;

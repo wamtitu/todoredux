@@ -26,8 +26,9 @@ export default function Register() {
                 response.data.message && alert(response.data.message)
                 navigate("/")
             })
-            .catch(({ response }) => {
+            .catch((error,{ response }) => {
                 alert(response.data.error)
+                console.log(error)
             });
     };
     return (

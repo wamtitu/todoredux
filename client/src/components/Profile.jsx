@@ -2,9 +2,11 @@ import './profile.css'
 import userAvator from '../assets/userAvator.webp'
 import { useContext } from 'react'
 import { Context } from '../context/userContext/Context'
+import { useSelector } from 'react-redux'
 export default function Profile() {
 
-    const { user } = useContext(Context);
+    // const { user } = useContext(Context);
+    const user = useSelector((state)=>state.user.user)
     return (
         <div className='profile'>
             <div className="userAvator">
